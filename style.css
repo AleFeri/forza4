@@ -3,7 +3,7 @@ body {
 }
 
 #board {
-    background-color: #6A5ACD;
+    background-color: rgb(33, 133, 233);
     width: 42%;
     margin: auto;
 }
