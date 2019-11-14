@@ -64,7 +64,7 @@ function controllaVittoria(posW, posH, nColore) {
     else escursioneH = 3;
     //controllo
     for(var i = 0; i < escursioneW; i++) {
-
+        
     }
     
 }

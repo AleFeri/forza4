@@ -1,0 +1,20 @@
+body {
+    background-color: black;
+}
+
+#board {
+    background-color: #6A5ACD;
+    width: 42%;
+    margin: auto;
+}
+
+#table{
+    margin: auto;
+}
+
+.coin {
+    background-color: white;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+}
