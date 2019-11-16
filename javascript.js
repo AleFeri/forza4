@@ -2,6 +2,7 @@ var board = new Array();
 var righeTot = 6;
 var colonneTot = 7;
 var turno = true; //true = turno giallo
+var vittoria = false;
 
 $(document).ready(function() {
   var myMenu = $(".btn");
@@ -53,6 +54,11 @@ $.fn.playFunct = function() {
 
   // questa funzione serve a noi se vuoi vedere il contenuto della matrice(poi si leverà)
   document.getElementById("text").innerHTML = JSON.stringify(board, null, 4);
+  if (vittoria) {
+    vittoria = !vittoria;
+    resetBoard();
+    turno = true;
+  }
 };
 
 //funzione che visualizza il coin in output e lo inserisce nella matrice
@@ -63,9 +69,13 @@ function setCoinInTable(colonna) {
       if (turno) {
         $(divId).addClass("yellowCoin");
         board[i][colonna] = 1;
+        if(checkWin(i, colonna, 1))
+          alert("Win");
       } else {
         $(divId).addClass("redCoin");
         board[i][colonna] = 2;
+        if(checkWin(i, colonna, 2))
+          alert("Win");
       }
       break;
     }
@@ -87,3 +97,29 @@ function resetBoard() {
 }
 
 //? da fare function checkWin(){}
+function checkWin(y, x, nColore) {
+
+  //orizzontale
+  for (var i = 0; i < colonneTot - 3; i++) {
+    //controllo il blocco di 4
+    if (board[y][i] == nColore)
+      if (board[y][i + 1] == nColore)
+        if (board[y][i + 2] == nColore)
+          if (board[y][i + 3] == nColore){
+            vittoria = true;
+            return true; 
+          }
+  }
+
+  //verticale
+  for (var i = 0; i < righeTot - 3; i++) {
+    //controllo il blocco di 4
+    if (board[i][x] == nColore)
+      if (board[i + 1][x] == nColore)
+        if (board[i + 2][x] == nColore)
+          if (board[i + 3][x] == nColore) {
+            vittoria = true;
+            return true; 
+          }       
+  }
+}
