@@ -161,7 +161,6 @@ function checkWin(y, x, nColore) {
   else
     lim = limY;
 
-  try{
     //diagonale (alto basso)
     for (var i = lim; i >= 0; i--) {
       if (board[y+i][x+i] == nColore)
@@ -171,7 +170,7 @@ function checkWin(y, x, nColore) {
               return 1;
             }
     }
-  } catch(error) {
+  
     //limite Y (dal basso)
     if (y - 3 < 0)
       if (y - 2 < 0)
@@ -195,7 +194,6 @@ function checkWin(y, x, nColore) {
               return 1;
             }
     }
-  }
 
   return 0;
 }
