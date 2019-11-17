@@ -1,0 +1,95 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+#box {
+  background-color: blue;
+  width: 40%;
+  margin: auto;
+  margin-top: 0%;
+}
+
+table {
+  width: 50%;
+  margin: auto;
+}
+
+#divBtn {
+  width: 394px;
+  margin: auto;
+  margin-top: 7%;
+  display: flex;
+}
+
+.btn {
+  margin: 2px 2px 2px 3.77px;
+  border: none;
+  border-radius: 50px;
+  background-color: transparent;
+  width: 50px;
+  height: 50px;
+}
+
+.coin {
+  background-color: white;
+  border-radius: 50px;
+  width: 50px;
+  height: 50px;
+  margin: 2px 2px 2px 2px;
+  transition: all 1.5s;
+}
+
+.yellowCoin {
+  background-color: yellow;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+}
+
+.redCoin {
+  background-color: red;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+}
+
+#divWin {
+  display: none;
+  width: 50%;
+  height: 30vh;
+  background-color: rgba(233, 225, 225, 0.904);
+  margin: auto;
+  margin-top: 10%;
+  text-align: center;
+  border: 2px solid black;
+  border-radius: 4px;
+  font-size: 20px;
+}
+
+#btnWin {
+  width: 10%;
+  height: 4vh;
+  border-radius: 3px;
+  background-color: rgba(26, 167, 26, 0.746);
+  color: white;
+}
+
+#pWin {
+  padding: 20px;
+}
+
+#pMosseTot {
+  padding: 10px;
+}
+
+.btn:focus {
+  outline: 0;
+}
+
+.removeFromView {
+  position: absolute;
+  bottom: -9999px;
+  left: -9999px;
+}
