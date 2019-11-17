@@ -148,28 +148,53 @@ function checkWin(y, x, nColore) {
     else limX = 2;
   else limX = 3;
   //limite Y 
-  if (y + 3 >= colonneTot)
-    if (y + 2 >= colonneTot)
-      if (y + 1 >= colonneTot)
+  if (y + 3 >= righeTot)
+    if (y + 2 >= righeTot)
+      if (y + 1 >= righeTot)
         limY = 0;
       else limY = 1;
     else limY = 2;
   else limY = 3;
-  if (y >= 3) limY--;
   //trovo il limite
   if (limX < limY)
     lim = limX;
   else
     lim = limY;
 
-  //diagonale (alto basso)
-  for (var i = lim; i >= 0; i--) {
-    if (board[y+i][x+i] == nColore)
-      if (board[y+i-1][x+i-1] == nColore)
-        if (board[y+i-2][x+i-2] == nColore)
-          if (board[y+i-3][x+i-3] == nColore) {
-            return 1;
-          }
+  try{
+    //diagonale (alto basso)
+    for (var i = lim; i >= 0; i--) {
+      if (board[y+i][x+i] == nColore)
+        if (board[y+i-1][x+i-1] == nColore)
+          if (board[y+i-2][x+i-2] == nColore)
+            if (board[y+i-3][x+i-3] == nColore) {
+              return 1;
+            }
+    }
+  } catch(error) {
+    //limite Y (dal basso)
+    if (y - 3 < 0)
+      if (y - 2 < 0)
+        if (y - 1 < 0)
+          limY = 0;
+        else limY = 1;
+      else limY = 2;
+    else limY = 3;
+    //trovo il limite
+    if (limX < limY)
+      lim = limX;
+    else
+      lim = limY;
+
+    //diagonale (basso alto)
+    for (var i = 0; i <= 3; i++) {
+      if (board[y-i][x+i] == nColore)
+        if (board[y-i+1][x+i-1] == nColore)
+          if (board[y-i+2][x+i-2] == nColore)
+            if (board[y-i+3][x+i-3] == nColore) {
+              return 1;
+            }
+    }
   }
 
   return 0;
