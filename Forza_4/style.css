@@ -19,14 +19,15 @@ table {
 #divBtn {
   width: 394px;
   margin: auto;
-  display: flex;
-  justify-content: space-around;
   margin-top: 7%;
+  display: flex;
 }
 
 .btn {
+  margin: 2px 2px 2px 3.77px;
   border: none;
-  background-color: transparent;
+  border-radius: 50px;
+  background-color: black;
   width: 50px;
   height: 50px;
 }
@@ -37,7 +38,7 @@ table {
   width: 50px;
   height: 50px;
   margin: 2px 2px 2px 2px;
-  transition: all 2s;
+  transition: all 1.5s;
 }
 
 .yellowCoin {
@@ -85,4 +86,10 @@ table {
 
 .btn:focus {
   outline: 0;
+}
+
+.removeFromView {
+  position: absolute;
+  bottom: -9999px;
+  left: -9999px;
 }
