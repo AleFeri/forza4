@@ -2,26 +2,29 @@ var board = new Array();
 var righeTot = 6;
 var colonneTot = 7;
 var turno = true; //true = turno giallo
-var vittoria = false;
+var vittoria = 0; //0 partita non finita, 1 vittoria, 2 pareggio
+var mosse = 0;
 
-$(document).ready(function() {
-  var myMenu = $(".btn");
+//funzione per hover
+function hover() {
+  var myBtn = $(".btn");
 
-  myMenu.mouseenter(function() {
+  myBtn.mouseenter(function() {
     if (turno) {
-      myMenu.filter(".btnHoverYellow").removeClass("btnHoverYellow");
-      $(this).addClass("btnHoverYellow");
+      myBtn.filter(".yellowCoin").removeClass("yellowCoin");
+      $(this).addClass("yellowCoin");
     } else {
-      myMenu.filter(".btnHoverRed").removeClass("btnHoverRed");
-      $(this).addClass("btnHoverRed");
+      myBtn.filter(".redCoin").removeClass("redCoin");
+      $(this).addClass("redCoin");
     }
   });
 
-  myMenu.mouseleave(function() {
-    if (turno) myMenu.removeClass("btnHoverYellow");
-    else myMenu.removeClass("btnHoverRed");
+  myBtn.mouseleave(function() {
+    if (turno) myBtn.removeClass("yellowCoin");
+    else myBtn.removeClass("redCoin");
   });
-});
+}
+$(document).ready(hover);
 
 function azzeraGriglia() {
   //pone a 0 la matrice
@@ -44,20 +47,30 @@ function preparaMatrice() {
 $.fn.playFunct = function() {
   var id = $(this).attr("id"); //qua prendo l'id del bottone che è stato cliccato
   var colonna = Number(id); //mentre qua trasformo l' id appena ottenuto in numero
+  incrementaMosse();
   //cosi facendo(visto che i bottoni hanno l'id 1,2,3 ...) ottengo la colonna dove verrà inserita la moneta
+  var varforCheckWin = setCoinInTable(colonna); //contine riga colonna e colore del coin
 
-  setCoinInTable(colonna);
-  if (turno) $(".btn").removeClass("btnHoverYellow");
-  // da spostare forse
-  else $(".btn").removeClass("btnHoverRed"); //da spostare forse
+  if (turno) $(".btn").removeClass("yellowCoin");
+  else $(".btn").removeClass("redCoin");
   turno = !turno; //cambio il turno da giallo a rosso e viceversa
 
-  // questa funzione serve a noi se vuoi vedere il contenuto della matrice(poi si leverà)
-  document.getElementById("text").innerHTML = JSON.stringify(board, null, 4);
-  if (vittoria) {
-    vittoria = !vittoria;
-    resetBoard();
-    turno = true;
+  vittoria = checkWin(varforCheckWin[0], varforCheckWin[1], varforCheckWin[2]);
+
+  if (vittoria != 0) {
+    var coinId = "#" + varforCheckWin[0] + "-" + colonna;
+    turno = !turno;
+    if (turno) {
+      $(coinId).addClass("yellowCoin");
+    } else {
+      $(coinId).addClass("redCoin");
+    }
+    setTimeout(function() {
+      if (turno) showDivWin(1);
+      else showDivWin(2);
+      vittoria = 0;
+      turno = true;
+    }, 200);
   }
 };
 
@@ -69,22 +82,23 @@ function setCoinInTable(colonna) {
       if (turno) {
         $(divId).addClass("yellowCoin");
         board[i][colonna] = 1;
-        if(checkWin(i, colonna, 1))
-          alert("Win");
+
+        var varforCheckWin = [i, colonna, 1];
+        return varforCheckWin;
       } else {
         $(divId).addClass("redCoin");
         board[i][colonna] = 2;
-        if(checkWin(i, colonna, 2))
-          alert("Win");
+
+        var varforCheckWin = [i, colonna, 2];
+        return varforCheckWin;
       }
-      break;
     }
   }
 }
 
 function resetBoard() {
   azzeraGriglia();
-
+  mosse = 0;
   for (var j = 0; j < colonneTot; j++) {
     for (var i = 0; i < righeTot; i++) {
       var divId = "#" + i + "-" + j;
@@ -92,22 +106,17 @@ function resetBoard() {
       $(divId).removeClass("redCoin");
     }
   }
-  // questa funzione serve a noi se vuoi vedere il contenuto della matrice(poi si leverà)
-  document.getElementById("text").innerHTML = JSON.stringify(board, null, 4);
 }
 
-//? da fare function checkWin(){}
 function checkWin(y, x, nColore) {
-
   //orizzontale
   for (var i = 0; i < colonneTot - 3; i++) {
     //controllo il blocco di 4
     if (board[y][i] == nColore)
       if (board[y][i + 1] == nColore)
         if (board[y][i + 2] == nColore)
-          if (board[y][i + 3] == nColore){
-            vittoria = true;
-            return true; 
+          if (board[y][i + 3] == nColore) {
+            return 1;
           }
   }
 
@@ -118,8 +127,37 @@ function checkWin(y, x, nColore) {
       if (board[i + 1][x] == nColore)
         if (board[i + 2][x] == nColore)
           if (board[i + 3][x] == nColore) {
-            vittoria = true;
-            return true; 
-          }       
+            return 1;
+          }
   }
+
+  //controllo per pareggio
+  if (mosse == righeTot * colonneTot) return 2;
+
+  return 0;
+}
+
+function showDivWin(colorWin) {
+  document.getElementById("box").style.display = "none";
+  document.getElementById("divBtn").style.display = "none";
+  document.getElementById("divWin").style.display = "block";
+  if (vittoria == 1) {
+    if (colorWin == 1)
+      document.getElementById("pWin").innerHTML = "Vince il giocatore giallo";
+    else document.getElementById("pWin").innerHTML = "Vince il giocatore rosso";
+  } else {
+    document.getElementById("pWin").innerHTML = "Pareggio";
+  }
+  document.getElementById("pMosseTot").innerHTML = "Mosse fatte " + mosse;
+}
+
+function showDivBox() {
+  resetBoard();
+  document.getElementById("divWin").style.display = "none";
+  document.getElementById("box").style.display = "block";
+  document.getElementById("divBtn").style.display = "block";
+}
+
+function incrementaMosse() {
+  mosse++;
 }

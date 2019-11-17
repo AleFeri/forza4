@@ -10,7 +10,11 @@
     <title>Forza 4</title>
   </head>
   <body onload="preparaMatrice()">
-    <p id="text"></p>
+    <div id="divWin">
+      <p id="pWin"></p>
+      <p id="pMosseTot"></p>
+      <button id="btnWin" onclick="showDivBox()">Rigioca</button>
+    </div>
     <div id="divBtn">
       <button id="0" class="btn" onclick="$(this).playFunct();"></button>
       <button id="1" class="btn" onclick="$(this).playFunct();"></button>
@@ -83,6 +87,5 @@
         </tr>
       </table>
     </div>
-    <button onclick="resetBoard()">reset</button>
   </body>
 </html>
