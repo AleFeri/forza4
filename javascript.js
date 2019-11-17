@@ -109,6 +109,9 @@ function resetBoard() {
 }
 
 function checkWin(y, x, nColore) {
+  //controllo per pareggio
+  if (mosse == righeTot * colonneTot) return 2;
+
   //orizzontale
   for (var i = 0; i < colonneTot - 3; i++) {
     //controllo il blocco di 4
@@ -131,8 +134,43 @@ function checkWin(y, x, nColore) {
           }
   }
 
-  //controllo per pareggio
-  if (mosse == righeTot * colonneTot) return 2;
+  //limite
+  var limX;
+  var limY;
+  var lim;
+
+  //limite X
+  if (x + 3 >= colonneTot)
+    if (x + 2 >= colonneTot)
+      if (x + 1 >= colonneTot)
+        limX = 0;
+      else limX = 1;
+    else limX = 2;
+  else limX = 3;
+  //limite Y 
+  if (y + 3 >= colonneTot)
+    if (y + 2 >= colonneTot)
+      if (y + 1 >= colonneTot)
+        limY = 0;
+      else limY = 1;
+    else limY = 2;
+  else limY = 3;
+  if (y >= 3) limY--;
+  //trovo il limite
+  if (limX < limY)
+    lim = limX;
+  else
+    lim = limY;
+
+  //diagonale (alto basso)
+  for (var i = lim; i >= 0; i--) {
+    if (board[y+i][x+i] == nColore)
+      if (board[y+i-1][x+i-1] == nColore)
+        if (board[y+i-2][x+i-2] == nColore)
+          if (board[y+i-3][x+i-3] == nColore) {
+            return 1;
+          }
+  }
 
   return 0;
 }
